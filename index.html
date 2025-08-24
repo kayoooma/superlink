@@ -93,6 +93,11 @@
         radial-gradient(60vmax 30vmax at 70% 20%, rgba(255,255,255,.35), transparent 60%),
         linear-gradient(135deg,#f6e7c1 0%,#fff6dc 30%,#ead9b5 55%,#f8edd0 75%,#e7d2a9 100%)}
 
+    /* 7) Stars (Y2K) */
+    .bg-stars{inset:0;pointer-events:none;opacity:.9}
+    .star{position:absolute;will-change:transform,opacity;animation:twinkle var(--d,6s) ease-in-out infinite;opacity:.95;filter:drop-shadow(0 0 6px rgba(255,255,255,.25))}
+    @keyframes twinkle{0%,100%{transform:translateY(0) rotate(var(--r,0deg)) scale(1)}50%{transform:translateY(-2%) rotate(calc(var(--r,0deg) + 12deg)) scale(1.15)}}
+
     /* Visibility toggling */
     [data-bg] .bg-layer{display:none}
     [data-bg="juice"] .bg-juice{display:block}
@@ -101,6 +106,7 @@
     [data-bg="silver"] .bg-silver{display:block}
     [data-bg="chrome"] .bg-chrome{display:block}
     [data-bg="champagne"] .bg-champagne{display:block}
+    [data-bg="stars"] .bg-stars{display:block}
 
     /* Button ripple */
     .ripple{position:relative;overflow:hidden}
@@ -123,7 +129,7 @@
     .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:1rem}
     .modal.show{display:flex}
 
-    /* Tabs */
+    /* Tabs + language pills */
     .tab-btn,.lang-pill{font-size:12px;border-radius:10px;border:1px solid rgba(255,255,255,.35);padding:4px 8px}
     .dark .tab-btn,.dark .lang-pill{border-color:rgba(255,255,255,.15)}
     .tab-btn.active,.lang-pill.active{background:rgba(255,255,255,.9)}
@@ -141,6 +147,7 @@
   <div class="bg-layer bg-silver"></div>
   <div class="bg-layer bg-chrome"></div>
   <div class="bg-layer bg-champagne"></div>
+  <div class="bg-layer bg-stars"></div>
 
   <!-- Page container -->
   <main class="relative mx-auto max-w-xl px-4 sm:px-6 pt-10 pb-28">
@@ -175,18 +182,14 @@
       </div>
 
       <!-- Quick actions -->
-      <div class="mt-6 grid grid-cols-3 gap-3">
-        <a href="tel:+998881116612" class="ripple focus-ring flex items-center justify-center gap-2 rounded-2xl px-3 py-3 bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10 hover:translate-y-[1px] active:translate-y-[2px] transition">
+      <div class="mt-6 grid grid-cols-2 gap-3">
+        <a id="btnCall" href="tel:+998881116612" class="ripple focus-ring flex items-center justify-center gap-2 rounded-2xl px-3 py-3 bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10 hover:translate-y-[1px] active:translate-y-[2px] transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a1.5 1.5 0 0 0 1.5-1.5v-2.1a1.5 1.5 0 0 0-1.2-1.47l-3.3-.66a1.5 1.5 0 0 0-1.53.6l-.9 1.2a12.3 12.3 0 0 1-5.7-5.7l1.2-.9a1.5 1.5 0 0 0 .6-1.53l-.66-3.3A1.5 1.5 0 0 0 8.85 3H6.75A1.5 1.5 0 0 0 5.25 4.5v2.25Z"/></svg>
           <span class="text-sm font-semibold" data-i18n="call">Позвонить</span>
         </a>
-        <a href="mailto:kamasultanov8@gmail.com" class="ripple focus-ring flex items-center justify-center gap-2 rounded-2xl px-3 py-3 bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10 hover:translate-y-[1px] active:translate-y-[2px] transition">
+        <a id="btnEmail" href="mailto:kamasultanov8@gmail.com" class="ripple focus-ring flex items-center justify-center gap-2 rounded-2xl px-3 py-3 bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10 hover:translate-y-[1px] active:translate-y-[2px] transition">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m3 7 9 6 9-6m-18 10h18V7H3v10Z"/></svg>
           <span class="text-sm font-semibold" data-i18n="email">Email</span>
-        </a>
-        <a href="https://wa.me/998881116612" target="_blank" rel="noreferrer" class="ripple focus-ring flex items-center justify-center gap-2 rounded-2xl px-3 py-3 bg-white/80 dark:bg-white/10 border border-white/40 dark:border-white/10 hover:translate-y-[1px] active:translate-y-[2px] transition">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.94 14.56L2 22l5.6-1.47A10 10 0 1 0 12 2Zm5.51 14.23c-.23.65-1.35 1.24-1.87 1.29-.48.05-1.08.07-1.74-.11-.41-.12-.94-.31-1.63-.61-2.88-1.25-4.75-4.16-4.9-4.35-.14-.2-1.17-1.56-1.17-2.97 0-1.41.74-2.1 1-2.38.26-.28.57-.35.76-.35h.55c.18 0 .42.06.65.49.23.44.77 1.52.84 1.63.07.12.11.26.02.42-.09.17-.13.27-.26.42-.13.15-.27.33-.39.45-.12.13-.25.27-.11.52.14.25.63 1.04 1.35 1.69.93.83 1.71 1.1 1.96 1.23.25.13.4.11.55-.06.15-.17.64-.74.81-1 .17-.26.34-.22.57-.13.23.09 1.46.69 1.71.82.25.13.41.19.47.29.06.11.06.64-.17 1.29Z"/></svg>
-          <span class="text-sm font-semibold" data-i18n="whatsapp">WhatsApp</span>
         </a>
       </div>
 
@@ -214,6 +217,7 @@
             <button class="bg-pill h-6 w-6 rounded-full border border-white/50" data-bg="silver" title="Silver" style="background:linear-gradient(135deg,#cfd4da,#f7f9fb,#c3c7cd)"></button>
             <button class="bg-pill h-6 w-6 rounded-full border border-white/50" data-bg="chrome" title="Chrome" style="background:linear-gradient(135deg,#0b0b0f,#dfe3e8,#0b0b0f)"></button>
             <button class="bg-pill h-6 w-6 rounded-full border border-white/50" data-bg="champagne" title="Champagne" style="background:linear-gradient(135deg,#f6e7c1,#fff6dc,#ead9b5)"></button>
+            <button class="bg-pill h-6 w-6 rounded-full border border-white/50" data-bg="stars" title="Stars" style="background:radial-gradient(circle,#fff 30%,transparent 31%), radial-gradient(circle,#fff 30%,transparent 31%);background-size:10px 10px, 6px 6px;background-position:0 0, 5px 5px"></button>
           </div>
         </div>
         <div class="flex items-center gap-2 text-xs">
@@ -235,7 +239,7 @@
 
     <!-- Links -->
     <section id="links" class="mt-6 space-y-3">
-      <a data-track="Telegram" href="https://t.me/Ka_yooo_ma" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
+      <a href="https://t.me/Ka_yooo_ma" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
         <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#229ED9]/15 text-[#229ED9]">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor"><path d="M21.944 5.76c.24-1.114-.85-2.03-1.89-1.6L3.4 11.1c-1.042.43-.97 1.95.105 2.26l4.46 1.3 1.74 5.4c.29.91 1.48 1.11 2.06.34l2.47-3.21 4.71 3.43c.86.63 2.09.16 2.31-.88L21.94 5.76Zm-4.5 2.6-8.64 7.53-.37 3.17 1.14-2.52 7.87-8.18Z"/></svg>
         </span>
@@ -248,7 +252,7 @@
         </div>
       </a>
 
-      <a data-track="Instagram" href="https://www.instagram.com/ka_yoooo_ma?igsh=M24xdWtzOGZmZm96" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
+      <a href="https://www.instagram.com/ka_yoooo_ma?igsh=M24xdWtzOGZmZm96" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
         <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-yellow-500 text-white">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 3 0 0 0-3-3H7Zm5 3.5a4.5 4.5 0 1 1 0 9 4.5 4.5 0 0 1 0-9Zm0 2a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Zm5.25-.75a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/></svg>
         </span>
@@ -261,7 +265,7 @@
         </div>
       </a>
 
-      <a data-track="Website" href="https://kayoooma.github.io/project_manager/en/" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
+      <a href="https://kayoooma.github.io/project_manager/en/" target="_blank" rel="noreferrer" class="surface link-card ripple focus-ring group flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition">
         <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-500/20 text-brand-400">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/></svg>
         </span>
@@ -274,7 +278,7 @@
         </div>
       </a>
 
-      <button id="openBook" data-track="Calendar" class="surface link-card ripple focus-ring group w-full flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition text-left">
+      <button id="openBook" class="surface link-card ripple focus-ring group w-full flex items-center gap-3 rounded-2xl px-5 py-4 glass border border-white/10 transition text-left">
         <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 text-indigo-400">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.75 3v3m10.5-3v3M3.75 8.25h16.5M5.25 21h13.5A1.5 1.5 0 0 0 20.25 19.5V7.5A1.5 1.5 0 0 0 18.75 6H5.25A1.5 1.5 0 0 0 3.75 7.5v12A1.5 1.5 0 0 0 5.25 21Z"/></svg>
         </span>
@@ -288,15 +292,8 @@
       </button>
     </section>
 
-    <!-- Footer / mini-analytics -->
+    <!-- Footer -->
     <footer class="mt-8 flex flex-col items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
-      <div id="stats" class="surface glass border border-white/10 rounded-2xl px-3 py-2 w-full">
-        <div class="flex items-center justify-between">
-          <span class="font-medium" data-i18n="statsTitle">Клики (локально)</span>
-          <button id="resetStats" class="underline hover:opacity-100 opacity-70" data-i18n="reset">сбросить</button>
-        </div>
-        <ul id="statsList" class="mt-1 list-disc list-inside space-y-0.5"></ul>
-      </div>
       <p>© <span id="year"></span> Комил Султонов • <a class="underline" href="https://t.me/Ka_yooo_ma" target="_blank" rel="noreferrer">@Ka_yooo_ma</a></p>
     </footer>
   </main>
@@ -337,8 +334,7 @@
           <div>
             <label class="text-xs opacity-80" data-i18n="formMethodLabel">Способ связи</label>
             <div class="mt-1 grid grid-cols-2 gap-2 text-sm">
-              <label class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 dark:bg-white/10 px-3 py-2 cursor-pointer"><input type="radio" name="bfMethod" value="whatsapp" checked> WhatsApp</label>
-              <label class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 dark:bg-white/10 px-3 py-2 cursor-pointer"><input type="radio" name="bfMethod" value="telegram"> Telegram</label>
+              <label class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 dark:bg-white/10 px-3 py-2 cursor-pointer"><input type="radio" name="bfMethod" value="telegram" checked> Telegram</label>
               <label class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 dark:bg-white/10 px-3 py-2 cursor-pointer"><input type="radio" name="bfMethod" value="email"> Email</label>
               <label class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/80 dark:bg-white/10 px-3 py-2 cursor-pointer"><input type="radio" name="bfMethod" value="phone" data-i18n="phone"> Телефон</label>
             </div>
@@ -353,6 +349,24 @@
           </div>
           <p id="bfHint" class="hidden text-xs text-emerald-500" data-i18n="hintCopied">Заявка скопирована — откроется чат, просто вставьте и отправьте.</p>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact (copy) modal -->
+  <div id="contactModal" class="modal">
+    <div class="surface glass shadow-glow rounded-2xl border border-white/10 dark:border-white/5 max-w-md w-full p-4 sm:p-5 relative">
+      <button id="closeContact" class="absolute right-3 top-3 opacity-70 hover:opacity-100" aria-label="Закрыть">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M6.225 4.811 4.811 6.225 10.586 12l-5.775 5.775 1.414 1.414L12 13.414l5.775 5.775 1.414-1.414L13.414 12l5.775-5.775-1.414-1.414L12 10.586 6.225 4.811Z"/></svg>
+      </button>
+      <h3 id="contactTitle" class="text-lg font-semibold mb-2">Контакты</h3>
+      <div class="flex items-center gap-2">
+        <code id="contactValue" class="px-2 py-1 rounded-md bg-white/80 dark:bg-white/10 border border-white/30 text-sm select-all">—</code>
+        <button id="copyContact" class="ripple rounded-md border border-white/30 bg-white/80 dark:bg-white/10 px-2 py-1 text-sm">Скопировать</button>
+      </div>
+      <div class="mt-3 flex items-center justify-end gap-2">
+        <button id="openContact" class="ripple rounded-md px-3 py-2 text-sm font-semibold bg-brand-600 text-white hover:bg-brand-700">Открыть</button>
+        <button id="cancelContact" class="ripple rounded-md px-3 py-2 text-sm border border-white/30 bg-white/70 dark:bg-white/10">Закрыть</button>
       </div>
     </div>
   </div>
@@ -376,6 +390,8 @@
     darkToggle.addEventListener('click', () => {
       root.classList.toggle('dark');
       localStorage.setItem('theme', root.classList.contains('dark') ? 'dark' : 'light');
+      // stars recolor
+      drawStars();
     });
 
     // --- i18n
@@ -384,31 +400,29 @@
         title: 'Комил Султонов — все ссылки',
         announce: 'Открыт к проектам и коллабам',
         seeLinks: 'Смотреть ссылки →',
-        call: 'Позвонить', email: 'Email', whatsapp: 'WhatsApp', theme: 'Тема', color: 'Цвет:', bg: 'Фон:', style: 'Стиль:', styleGlass: 'Glass', styleSolid: 'Solid', langLabel: 'Язык:',
+        call: 'Позвонить', email: 'Email', theme: 'Тема', color: 'Цвет:', bg: 'Фон:', style: 'Стиль:', styleGlass: 'Glass', styleSolid: 'Solid', langLabel: 'Язык:',
         telegramWrite: 'Написать →', tgDesc: 'Быстрее всего отвечаю здесь',
         instLabel: 'Лента, сторис', instDesc: 'Кейсы и закулисье моих проектов',
         website: 'Сайт', websiteLabel: 'Сайт →', websiteDesc: 'Мой сайт и проекты',
         bookBtn: 'Записаться на звонок', bookVia: 'через Cal.com', bookDesc: 'Выберите слот или оставьте быструю заявку',
-        statsTitle: 'Клики (локально)', reset: 'сбросить',
         modalTitle: 'Запись на звонок', tabsQuick: 'Быстрая заявка', modalLead: 'Выберите удобный слот или оставьте заявку с желаемым временем.', notLoading: 'Не грузится?', openCal: 'Открыть на cal.com',
         formNameLabel: 'Ваше имя', formDateLabel: 'Дата и время (UTC+5)', formMethodLabel: 'Способ связи', formCommentLabel: 'Комментарий (опционально)', cancel: 'Отмена', send: 'Отправить', hintCopied: 'Заявка скопирована — откроется чат, просто вставьте и отправьте.',
         phone: 'Телефон',
-        badgeExp: '7+ лет опыта', badgeResp: 'Ответ за ~1 час'
+        copy: 'Скопировать', copied: 'Скопировано', contactTitlePhone: 'Телефон', contactTitleEmail: 'Email', openMail: 'Открыть почту', startCall: 'Позвонить'
       },
       en: {
         title: 'Komil Sultonov — links',
         announce: 'Open for projects & collabs',
         seeLinks: 'See links →',
-        call: 'Call', email: 'Email', whatsapp: 'WhatsApp', theme: 'Theme', color: 'Color:', bg: 'Background:', style: 'Style:', styleGlass: 'Glass', styleSolid: 'Solid', langLabel: 'Language:',
+        call: 'Call', email: 'Email', theme: 'Theme', color: 'Color:', bg: 'Background:', style: 'Style:', styleGlass: 'Glass', styleSolid: 'Solid', langLabel: 'Language:',
         telegramWrite: 'Message →', tgDesc: 'Fastest replies here',
         instLabel: 'Feed, stories', instDesc: 'Behind the scenes of my projects',
         website: 'Website', websiteLabel: 'Website →', websiteDesc: 'My site & projects',
         bookBtn: 'Book a call', bookVia: 'via Cal.com', bookDesc: 'Choose a slot or leave a quick request',
-        statsTitle: 'Clicks (local)', reset: 'reset',
         modalTitle: 'Book a call', tabsQuick: 'Quick request', modalLead: 'Pick a slot or leave your preferred time.', notLoading: "Doesn't load?", openCal: 'Open on cal.com',
         formNameLabel: 'Your name', formDateLabel: 'Date & time (UTC+5)', formMethodLabel: 'Contact method', formCommentLabel: 'Comment (optional)', cancel: 'Cancel', send: 'Send', hintCopied: 'Request copied — opening chat, just paste and send.',
         phone: 'Phone',
-        badgeExp: '7+ yrs exp', badgeResp: 'Reply in ~1h'
+        copy: 'Copy', copied: 'Copied', contactTitlePhone: 'Phone', contactTitleEmail: 'Email', openMail: 'Open Mail', startCall: 'Start call'
       }
     };
 
@@ -431,10 +445,10 @@
       document.getElementById('langEN').classList.toggle('active', lang==='en');
     }
 
-    const savedLang = localStorage.getItem('lang') || 'ru';
+    let savedLang = localStorage.getItem('lang') || 'ru';
     applyI18n(savedLang);
-    document.getElementById('langRU').addEventListener('click', ()=>applyI18n('ru'));
-    document.getElementById('langEN').addEventListener('click', ()=>applyI18n('en'));
+    document.getElementById('langRU').addEventListener('click', ()=>{ savedLang='ru'; applyI18n('ru'); });
+    document.getElementById('langEN').addEventListener('click', ()=>{ savedLang='en'; applyI18n('en'); });
 
     // --- Theme pills (colors)
     const setTheme = (c1, c2, c3) => {
@@ -472,35 +486,6 @@
     document.getElementById('styleGlass').addEventListener('click', ()=>applyStyle('glass'));
     document.getElementById('styleSolid').addEventListener('click', ()=>applyStyle('solid'));
 
-    // --- Mini analytics (localStorage only) + auto‑cleanup of removed links
-    const statsKey = 'linkStats';
-    const loadStats = () => JSON.parse(localStorage.getItem(statsKey) || '{}');
-    const saveStats = (m) => localStorage.setItem(statsKey, JSON.stringify(m));
-    const statsList = document.getElementById('statsList');
-    const allowed = new Set(Array.from(document.querySelectorAll('[data-track]')).map(a=>a.dataset.track));
-    const renderStats = () => {
-      const m = loadStats();
-      let changed = false; Object.keys(m).forEach(k=>{ if(!allowed.has(k)){ delete m[k]; changed = true; }});
-      if (changed) saveStats(m);
-      statsList.innerHTML = Object.keys(m).length ? '' : (savedLang==='en' ? '<li>No data yet. Click any link.</li>' : '<li>Пока пусто. Нажмите на любую ссылку.</li>');
-      Object.entries(m).sort((a,b)=>b[1]-a[1]).forEach(([k,v]) => {
-        const li = document.createElement('li');
-        li.textContent = `${k}: ${v}`;
-        statsList.appendChild(li);
-      });
-    }
-    renderStats();
-
-    document.querySelectorAll('[data-track]').forEach(a => {
-      a.addEventListener('click', () => {
-        const m = loadStats();
-        const k = a.dataset.track;
-        m[k] = (m[k]||0)+1;
-        saveStats(m); renderStats();
-      });
-    });
-    document.getElementById('resetStats').addEventListener('click', () => { localStorage.removeItem(statsKey); renderStats(); });
-
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -509,7 +494,7 @@
     const toastText = document.getElementById('toastText');
     function showToast(msg){
       toastText.textContent = msg; toast.classList.remove('hidden'); toast.style.opacity = '1'; toast.style.transform = 'translate(-50%, 0)';
-      setTimeout(()=>{ toast.style.opacity='0'; toast.style.transform='translate(-50%, 6px)'; setTimeout(()=>toast.classList.add('hidden'),200); }, 3500);
+      setTimeout(()=>{ toast.style.opacity='0'; toast.style.transform='translate(-50%, 6px)'; setTimeout(()=>toast.classList.add('hidden'),200); }, 2500);
     }
 
     // --- Booking modal: tabs + Cal.com embed + Quick form
@@ -547,7 +532,7 @@
     tabCal.addEventListener('click', ()=>activateTab('cal'));
     tabQuick.addEventListener('click', ()=>activateTab('quick'));
 
-    // --- Quick form routing (fallback/альтернатива)
+    // --- Quick form routing (Telegram / Email / Phone)
     const bfCancel = document.getElementById('bfCancel');
     const bfForm = document.getElementById('bookForm');
     const bfHint = document.getElementById('bfHint');
@@ -571,12 +556,7 @@ Comment: ${msg || '—'}` :
 Способ: ${method}
 Комментарий: ${msg || '—'}`;
 
-      if(method === 'whatsapp'){
-        const url = `https://wa.me/998881116612?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
-        showToast(savedLang==='en' ? 'Opened WhatsApp with a prefilled message' : 'Открыл WhatsApp с готовым сообщением');
-        hideModal();
-      } else if(method === 'email'){
+      if(method === 'email'){
         const url = `mailto:kamasultanov8@gmail.com?subject=${encodeURIComponent(savedLang==='en' ? 'Call request' : 'Заявка на звонок')}&body=${encodeURIComponent(text)}`;
         window.location.href = url;
         showToast(savedLang==='en' ? 'Opened mail app with a draft' : 'Открыл почтовое приложение с письмом');
@@ -591,6 +571,84 @@ Comment: ${msg || '—'}` :
         showToast(savedLang==='en' ? 'Opened Telegram; request text copied' : 'Открыл Telegram; текст заявки скопирован');
       }
     });
+
+    // --- Contact copy modal logic
+    const contactModal = document.getElementById('contactModal');
+    const contactTitle = document.getElementById('contactTitle');
+    const contactValue = document.getElementById('contactValue');
+    const copyContact = document.getElementById('copyContact');
+    const openContact = document.getElementById('openContact');
+    const closeContact = document.getElementById('closeContact');
+    const cancelContact = document.getElementById('cancelContact');
+
+    function showContact(type){
+      const dict = t[savedLang];
+      if(type==='phone'){
+        contactTitle.textContent = dict.contactTitlePhone;
+        contactValue.textContent = '+998881116612';
+        openContact.textContent = dict.startCall;
+        openContact.onclick = ()=>{ window.location.href = 'tel:+998881116612'; };
+      } else {
+        contactTitle.textContent = dict.contactTitleEmail;
+        contactValue.textContent = 'kamasultanov8@gmail.com';
+        openContact.textContent = dict.openMail;
+        openContact.onclick = ()=>{ window.location.href = 'mailto:kamasultanov8@gmail.com'; };
+      }
+      copyContact.textContent = dict.copy;
+      contactModal.classList.add('show');
+    }
+    function hideContact(){ contactModal.classList.remove('show'); }
+    document.getElementById('btnCall').addEventListener('click', (e)=>{ e.preventDefault(); showContact('phone'); });
+    document.getElementById('btnEmail').addEventListener('click', (e)=>{ e.preventDefault(); showContact('email'); });
+    closeContact.addEventListener('click', hideContact);
+    cancelContact.addEventListener('click', hideContact);
+    contactModal.addEventListener('click', (e)=>{ if(e.target===contactModal) hideContact(); });
+    copyContact.addEventListener('click', ()=>{
+      const ok = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(contactValue.textContent) : (function(){
+        const ta = document.createElement('textarea'); ta.value = contactValue.textContent; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} document.body.removeChild(ta); return true; })();
+      Promise.resolve(ok).then(()=>showToast(t[savedLang].copied + ': ' + contactValue.textContent));
+    });
+
+    // --- Stars generator (Y2K 4‑point)
+    const starLayer = document.querySelector('.bg-stars');
+    function starSVG(id, colorMain, colorEdge){
+      return `<svg viewBox="0 0 100 100" width="100" height="100" aria-hidden="true">
+        <defs>
+          <radialGradient id="g${id}" cx="50%" cy="40%" r="65%">
+            <stop offset="0%" stop-color="${colorMain}" stop-opacity="1"/>
+            <stop offset="55%" stop-color="${colorMain}" stop-opacity=".9"/>
+            <stop offset="100%" stop-color="${colorEdge}" stop-opacity=".0"/>
+          </radialGradient>
+        </defs>
+        <path fill="url(#g${id})" d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z"/>
+      </svg>`;
+    }
+    function drawStars(){
+      if(!starLayer) return;
+      const isDark = root.classList.contains('dark');
+      const colMain = isDark ? 'rgba(255,255,255,0.95)' : 'rgba(0,0,0,0.9)';
+      const colEdge = isDark ? 'rgba(255,255,255,0.0)' : 'rgba(0,0,0,0.0)';
+      const count = 24;
+      starLayer.innerHTML = '';
+      for(let i=0;i<count;i++){
+        const s = 12 + Math.random()*32; // size
+        const x = Math.random()*100; const y = Math.random()*100;
+        const r = Math.floor(Math.random()*360);
+        const d = 5 + Math.random()*7;
+        const div = document.createElement('div');
+        div.className = 'star';
+        div.style.left = x+'%'; div.style.top = y+'%';
+        div.style.width = s+'px'; div.style.height = s+'px';
+        div.style.setProperty('--r', r+'deg');
+        div.style.setProperty('--d', d+'s');
+        // mix‑blend for glossy effect
+        div.style.mixBlendMode = isDark ? 'screen' : 'multiply';
+        div.innerHTML = starSVG(i, colMain, colEdge);
+        starLayer.appendChild(div);
+      }
+    }
+    drawStars();
+
   </script>
 </body>
 </html>
